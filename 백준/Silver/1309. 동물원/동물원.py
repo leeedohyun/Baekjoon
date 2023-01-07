@@ -2,13 +2,14 @@ from sys import stdin
 
 N = int(stdin.readline())
 
-dp = [1, 1, 1]
+dp = [3, 7]
 
-for i in range(N - 1) :
-    a = dp[0] + dp[1] + dp[2]
-    b = dp[0] + dp[2]
-    c = dp[0] + dp[1]
+for i in range(2, N):
+    a = (dp[0] + dp[1] * 2) % 9901
 
-    dp = [a, b, c]
+    dp = [dp[1], a]
 
-print(sum(dp) % 9901)
+if N == 1 :
+    print(dp[0])
+else :
+    print(dp[1])
