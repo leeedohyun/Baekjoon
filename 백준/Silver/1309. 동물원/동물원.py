@@ -1,4 +1,6 @@
-N = int(input())
+from sys import stdin
+
+N = int(stdin.readline())
 
 dp = [1, 1, 1]
 
