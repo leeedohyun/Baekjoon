@@ -7,10 +7,7 @@ P = list(map(int, input().split()))
 
 P.sort()
 
-min = 0
-sum = 0
-for p in P :
-    sum += p
-    min += sum
+for i in range(1, N) :
+    P[i] += P[i -1]
 
-print(min)
+print(sum(P))
