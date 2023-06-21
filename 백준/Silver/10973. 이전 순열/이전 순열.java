@@ -7,6 +7,7 @@ public class Main {
 
     public static void main(String args[]) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
         n = Integer.parseInt(br.readLine());
 
@@ -20,11 +21,14 @@ public class Main {
 
         if (solution(numbers)) {
             for (int number : numbers) {
-                System.out.print(number + " ");
+                sb.append(number).append(" ");
             }
+            sb.append("\n");
         } else {
-            System.out.println(-1);
+            sb.append("-1");
         }
+        
+        System.out.println(sb);
     }
 
     public static boolean solution(Integer[] data) {
