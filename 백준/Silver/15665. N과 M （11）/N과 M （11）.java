@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    public static List<Integer> numbers;
+    public static int[] numbers;
     public static int[] arr;
     public static int n, m;
     public static StringBuilder sb = new StringBuilder();
@@ -14,15 +14,12 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
-        numbers = new ArrayList<>();
+        numbers = new int[n];
         arr = new int[m];
         st = new StringTokenizer(br.readLine());
 
         for (int i = 0; i < n; i++) {
-            int number = Integer.parseInt(st.nextToken());
-            if (!numbers.contains(number)) {
-                numbers.add(number);
-            }
+            numbers[i] = Integer.parseInt(st.nextToken());
         }
 
         solution(0);
@@ -38,12 +35,15 @@ public class Main {
             return;
         }
 
-        Collections.sort(numbers);
+        Arrays.sort(numbers);
 
-        for (int i = 0; i < numbers.size(); i++) {
-            arr[depth] = numbers.get(i);
-            solution(depth + 1);
-
+        int before = 0;
+        for (int i = 0; i < n; i++) {
+            if (before != numbers[i]) {
+                arr[depth] = numbers[i];
+                before = numbers[i];
+                solution(depth + 1);
+            }
         } 
     }
 }
