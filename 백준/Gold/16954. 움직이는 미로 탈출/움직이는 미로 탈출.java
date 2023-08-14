@@ -45,7 +45,7 @@ public class Main {
                     int nx = now.x + dx[j];
                     int ny = now.y + dy[j];
                 
-                    if (nx < 0 || nx >= 8 || ny < 0 || ny >= 8 || map[nx][ny] == '#')
+                    if (nx < 0 || nx >= 8 || ny < 0 || ny >= 8 || visited[nx][ny] || map[nx][ny] == '#')
                         continue;
                     
                     visited[nx][ny] = true;
