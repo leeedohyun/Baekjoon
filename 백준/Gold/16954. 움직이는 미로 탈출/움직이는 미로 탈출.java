@@ -14,78 +14,65 @@ public class Main {
             }
         }
         
-        if (bfs(7, 0)) {
-            System.out.println(1);
-        } else {
-            System.out.println(0);
-        }
+        System.out.println(bfs(7, 0));
         
         br.close();
     }
     
-    public static boolean bfs(int x, int y) {
+    public static int bfs(int x, int y) {
         int[] dx = {0, 0, -1, 1, -1, -1, 1, 1, 0};
         int[] dy = {-1, 1, 0, 0, -1, 1, -1, 1, 0};
         
         Queue<Node> queue = new LinkedList<>();
-        queue.add(new Node(x, y, 0));
+        boolean[][] visited;
         
-        int previousTime = 0;
+        queue.add(new Node(x, y));
+    
         while (!queue.isEmpty()) {
-            Node now = queue.poll();
+            int size = queue.size();
+            visited = new boolean[8][8];
             
-            if (map[now.x][now.y] == '#')
-                return false;
-            
-            if (now.x == 0 && now.y == 7)
-                return true;
-            
-            if (now.time != previousTime) {
-                for (int i = 7; i >= 0; i--) {
-                    for (int j = 0; j < 8; j++) {
-                        if (i > 0 && map[i - 1][j] == '#') {
-                            map[i][j] = '#';
-                            map[i - 1][j] = '.';
-                        }
-                    }
-                }
-            }
-            
-            for (int i = 0; i < 9; i++) {
-                int nx = now.x + dx[i];
-                int ny = now.y + dy[i];
+            for (int i = 0; i < size; i++) {
+                Node now = queue.poll();
                 
-                if (nx < 0 || nx >= 8 || ny < 0 || ny >= 8)
+                if (map[now.x][now.y] == '#')
                     continue;
                 
-                if (nx > 0 && map[nx][ny] != '#' && map[nx - 1][ny] != '#') {
-                    countTime(queue, nx, ny, now.time);
-                }
-                if (nx == 0 && map[nx][ny] != '#') {
-                    countTime(queue, nx, ny, now.time);
+                if (now.x == 0 && now.y == 7)
+                    return 1;
+                
+                for (int j = 0; j < 9; j++) {
+                    int nx = now.x + dx[j];
+                    int ny = now.y + dy[j];
+                
+                    if (nx < 0 || nx >= 8 || ny < 0 || ny >= 8 || map[nx][ny] == '#')
+                        continue;
+                    
+                    visited[nx][ny] = true;
+                    queue.add(new Node(nx, ny));
                 }
             }
-            previousTime = now.time;
+            down();
         }
-        return false;
+        return 0;
     }
     
-    private static void countTime(Queue<Node> queue, int x, int y, int time) {
-        if (time == 0)
-            queue.add(new Node(x, y, time + 1));
-        else
-            queue.add(new Node(x, y, time + 2));
+    private static void down() {
+        for (int i = 7; i > 0; i--) {
+            for (int j = 0; j < 8; j++) {
+                map[i][j] = map[i - 1][j];
+            }
+        }
+        Arrays.fill(map[0], '.');
     }
     
     static class Node {
         int x;
         int y;
-        int time;
         
-        public Node(int x, int y, int time) {
+        public Node(int x, int y) {
             this.x = x;
             this.y = y;
-            this.time = time;
         }
     }
 }
