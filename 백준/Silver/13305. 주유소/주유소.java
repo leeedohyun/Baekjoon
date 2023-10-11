@@ -1,55 +1,41 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int n;
-    static int[] road;
-    static int[] oilPrice;
-    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
         
-        n = Integer.parseInt(br.readLine());
-        road = new int[n - 1];
-        oilPrice = new int[n];
+        int n = Integer.parseInt(br.readLine());
+        BigInteger[] road = new BigInteger[n - 1];
+        BigInteger[] oilPrice = new BigInteger[n];
         
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n - 1; i++) {
-            road[i] = Integer.parseInt(st.nextToken());
+            road[i] = new BigInteger(st.nextToken());
         }
         
-        int minOilPrice = Integer.MAX_VALUE;
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
-            oilPrice[i] = Integer.parseInt(st.nextToken());
-            if (minOilPrice > oilPrice[i] && i != n - 1)
-                minOilPrice = oilPrice[i];
+            oilPrice[i] = new BigInteger(st.nextToken());
         }
         
-        long minCost = 0;
-        for (int i = 0; i < n - 1; i++) {
-            if (oilPrice[i] == minOilPrice) {
-                int distance = calculateSumOfRemainingDistance(i);
-                minCost += distance * oilPrice[i];
-                break;
+        BigInteger minCost = road[0].multiply(oilPrice[0]);
+        BigInteger minOilPrice = oilPrice[0];
+        for (int i = 1; i < n - 1; i++) {
+            if (oilPrice[i].compareTo(minOilPrice) < 0) {
+                minCost = minCost.add(road[i].multiply(oilPrice[i]));
+                minOilPrice = oilPrice[i];
             } else {
-                minCost += road[i] * oilPrice[i];
+                minCost = minCost.add(road[i].multiply(minOilPrice));
             }
         }
         
         System.out.println(minCost);
         
         br.close();
-    }
-    
-    private static int calculateSumOfRemainingDistance(int currentLocation) {
-        int distance = 0;
-        for (int i = currentLocation; i < n - 1; i++) {
-            distance += road[i];
-        }
-        return distance;
     }
 }
