@@ -6,15 +6,29 @@ public class Main {
         
         long s = Long.parseLong(br.readLine());
         
-        long sum = 0;
-        long count = 0;
-        while (sum <= s) {
-            count++;
-            sum += count;
-        }
-        
-        System.out.println(count - 1);
+        System.out.println(binarySearch(s));
         
         br.close();
+    }
+    
+    private static long binarySearch(long s) {
+        long start = 0;
+        long end = s;
+        long max = 0;
+        
+        while (start <= end) {
+            long mid = (start + end) / 2;
+            long sum = mid * (mid + 1) / 2;
+            
+            if (sum == s) {
+                return mid;
+            } else if (sum < s) {
+                start = mid + 1;
+                max = mid;
+            } else {
+                end = mid - 1;
+            }
+        }
+        return max;
     }
 }
